@@ -1,0 +1,169 @@
+@import url('https://fonts.googleapis.com/css2?family=Aboreto&family=Bubblegum+Sans&family=Permanent+Marker&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Roboto:ital,wght@0,100..900;1,100..900&family=Updock&display=swap');
+
+body{
+
+    margin: 0%;
+    padding: 0%;
+    font-family: 'Bubblegum sans';
+}
+.background{
+    margin: 0%;
+    padding: 0%;
+    position: relative;
+    width:100% ;
+    height:100% ;
+
+}
+
+.image1{
+    
+    width:100%;
+    height:728px;
+    background: url('5.jpg');
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    filter: blur(8px);
+    z-index: 1;
+    position: absolute;
+}
+.image2{
+    
+    width:100%;
+    position: absolute;
+    background-image: url(3.png);
+    background-position: center;
+    background-repeat: no-repeat;
+    height: 728px;
+    z-index:2; 
+}
+.image2 .content{
+    text-align: center;
+    font-weight: bold;
+    font-size: 7rem;
+    top: 50%;
+    left: 50%;
+    z-index:3;
+    font-family: bubblegum sans;
+    color: rgba(36, 2, 54, 0.868);
+    margin-top: 80px;
+    text-shadow:12px 12px 14px rgba(49, 2, 37, 0.747);
+
+}
+
+.vertical-buttons{
+    display:flex;
+    flex-direction: column;
+    gap:20px;
+    padding-left:370px;
+    transform: translateY(50px);
+    
+   
+}
+
+.play-button{
+  
+  transform: translateX(290px);
+   width:180px;
+   font-size:3rem;
+   border-radius:20px;
+   font-family: bubblegum sans ;
+   cursor: pointer;
+   background-color:rgba(183, 43, 150, 0.511) ;
+   color:rgba(40, 4, 58, 0.868);
+   font-weight: bold;
+   box-shadow: 12px 12px 14px rgba(72, 7, 79, 0.747);
+   border:none;
+  
+}
+.play-button:hover{
+    font-size: 3.1rem;
+    background-color:rgba(215, 69, 181, 0.511) ;
+
+}
+
+#google-sign-in:hover{
+    font-size:2.6rem;
+    background-color:rgba(201, 58, 167, 0.511) ;
+    
+}
+
+#google-sign-in{
+    width:20%;
+    transform: translateX(200px);
+    height:60px;
+    width:35%;
+    border-radius:20px;
+    font-size:2.5rem;
+    cursor: pointer;
+    background-color:rgba(183, 43, 150, 0.511);
+   color:rgba(40, 4, 58, 0.868);
+   font-weight: bold;
+   box-shadow: 12px 12px 14px rgba(72, 7, 79, 0.747);
+   border:none;
+   font-family: 'Bubblegum sans' ;
+
+}
+ .sticker1 {
+    position: relative;
+     width: 16%;
+     transform: translateX(390px) translateY(50px);
+}
+.sticker2 {
+    position: relative;
+     width: 12%;
+     transform: translateX(600px) translateY(-290px);
+}
+.sticker4 {
+    position: relative;
+     width: 15%;
+     transform: translateX(500px) translateY(0px);
+}
+.sticker5 {
+    position: relative;
+     width: 15%;
+     transform: translateX(440px) translateY(270px);
+}
+.view-profile{
+    background: transparent;
+    font-family: 'cursive';
+    font-size: 2rem;
+    color:#1b010e;
+    font-weight: bolder;
+    border: none;
+    box-shadow: 8px 8px 10px rgba(56, 1, 43, 0.747);
+    border-radius: 50%;
+    height: 50px;
+    width: 50px;
+    transform: translateX(990px);
+
+}
+.view-profile:hover{
+    font-size: 2.2rem;
+}
+
+.profile-heading{
+    transform: translateX(540px);
+    font-size: 4rem;
+    color: rgb(27, 1, 20);
+}
+p {
+    font-family: 'Bubblegum sans';
+    font-size: 3rem;
+    color: rgb(34, 2, 12);
+    text-align: center;
+    margin-top: 15px;
+    text-shadow: 2px 4px 8px rgba(0, 0, 0, 0.4);
+}
+
+p strong {
+    color: rgb(34, 2, 12);
+}
+
+#user-score, #user-level {
+    color: #3c031f;  /* Golden-yellow highlight */
+    font-weight: bold;
+    transition: all 0.3s ease-in-out;
+}
+

@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Limited moves</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Bubblegum+Sans&display=swap');
+
+    .background {
+      position: relative;
+      width: 100%;
+      height: 100%;
+    }
+
+    .image1 {
+      width: 100%;
+      height: 728px;
+      background: url('5.jpg') no-repeat center center fixed;
+      background-size: cover;
+      filter: blur(8px);
+      z-index: 1;
+      position: absolute;
+    }
+
+    .image2 {
+      width: 100%;
+      position: absolute;
+      background-image: url(3.png);
+      background-position: center;
+      background-repeat: no-repeat;
+      height: 728px;
+      z-index: 2;
+    }
+
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Bubblegum Sans', cursive;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      background-color: #f0f0f0;
+    }
+
+    .game-container {
+      display: grid;
+      grid-template-columns: repeat(4, 100px);
+      grid-gap: 10px;
+      width: 20%;
+      transform: translateX(540px) translateY(120px);
+    }
+
+    .card {
+      width: 100px;
+      height: 100px;
+      background-color: rgb(51, 2, 32);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 24px;
+      color: rgb(22, 22, 22);
+      cursor: pointer;
+      position: relative;
+      border-radius: 5px;
+      transition: transform 0.3s;
+      box-shadow: 2px 4px 5px rgba(19, 19, 19, 0.44);
+      overflow: hidden;
+    }
+
+    .card img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: none;
+    }
+
+    .card.flipped img {
+      display: block;
+    }
+
+    .card.flipped {
+      background-color: rgb(41, 3, 28);
+      transform: rotateY(180deg);
+    }
+
+    .card.matched {
+      background-color: transparent;
+      pointer-events: none;
+    }
+
+    button {
+      color: rgb(38, 2, 34);
+      width: 180px;
+      height: 50px;
+      border-radius: 30px;
+      background-color: transparent;
+      font-size: 1.5rem;
+      font-family: 'Bubblegum Sans', cursive;
+      cursor: pointer;
+      border: none;
+      box-shadow: 5px 8px 10px 10px rgba(50, 3, 29, 0.34);
+      transform: translateX(660px) translateY(120px);
+    }
+
+    .home-button {
+      width:80px;
+      margin-top: 15px;
+      padding: 10px 20px;
+      border-radius: 30px;
+      font-size: 1.2rem;
+      border: none;
+      background: #fff3;
+      color: rgba(38, 2, 34, 0.868);
+      box-shadow: 2px 4px 10px rgba(0, 0, 0, 0.4);
+      transform: translateX(250px) translateY(-490px);
+    }
+
+    .home-button:hover {
+      font-size: 1.3rem;
+    }
+
+    .stats-container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin-bottom: 20px;
+      z-index: 3;
+      transform: translateY(100px);
+    }
+
+    .stat {
+      font-size: 1.5rem;
+      margin: 0 15px;
+      color: white;
+      background: rgba(0, 0, 0, 0.5);
+      padding: 10px 20px;
+      border-radius: 20px;
+    }
+
+    #try-again-button {
+      position: absolute;
+      display: none;
+      padding: 10px 20px;
+      font-size: 1.2rem;
+      background-color: transparent;
+      color: rgb(54, 2, 39);
+      border: none;
+      border-radius: 15px;
+      font-family: 'Bubblegum Sans', cursive;
+      cursor: pointer;
+      box-shadow: 2px 4px 10px rgba(0, 0, 0, 0.4);
+      z-index: 4;
+      transform: translateX(560px) translateY(100px);
+    }
+  </style>
+</head>
+<body>
+  <div class="background">
+    <div class="image1"></div>
+    <div class="image2">
+      <div class="stats-container">
+        <div id="level" class="stat">Level: 1</div>
+        <div id="score" class="stat">Score: 0</div>
+        <div id="stars" class="stat">Stars: 0</div>
+        <div id="movesLeft" class="stat">Moves Left: 30</div>
+      </div>
+      <button id="try-again-button">Try Again</button>
+      <div class="game-container" id="game-container"></div>
+      <button id="restart-button">Restart Game</button>
+      <a href="gs.html">
+        <button class="home-button">
+          <i class="fa-solid fa-house"></i>
+        </button>
+      </a>
+    </div>
+  </div>
+
+  <script>
+    const levelImages = {
+      1: ['aa.png', 'bb.png', 'cc.png', 'dd.png', 'ee.png', 'ff.png', 'gg.png', 'hh.png'],
+      2: ['aaa.png', 'bbb.png', 'ccc.png', 'ddd.png', 'eee.png', 'fff.png', 'ggg.png', 'hh.png'],
+      3: ['aa.png', 'bb.png', 'cc.png', 'dd.png', 'ee.png', 'ff.png', 'gg.png', 'hh.png'],
+      4: ['a.png', 'b.png', 'c.png', 'd.png', 'e.png', 'f.png', 'g.png', 'h.png'],
+      5: ['aa.png', 'bb.png', 'cc.png', 'dd.png', 'ee.png', 'ff.png', 'gg.png', 'hh.png']
+    };
+
+    let currentLevel = 1;
+    let cardDeck = [];
+    let firstCard, secondCard;
+    let lockBoard = false;
+    let matchedCards = 0;
+    let movesLeft = 30;
+    let totalScore = 0;
+
+    const gameContainer = document.getElementById('game-container');
+    const restartButton = document.getElementById('restart-button');
+    const tryAgainButton = document.getElementById('try-again-button');
+
+    function updateUI() {
+      document.getElementById('level').textContent = `Level: ${currentLevel}`;
+      document.getElementById('score').textContent = `Score: ${totalScore}`;
+      document.getElementById('movesLeft').textContent = `Moves Left: ${movesLeft}`;
+      updateStars();
+    }
+
+    function updateStars() {
+      let stars = "0";
+      if (totalScore >= 800) stars = "⭐⭐⭐";
+      else if (totalScore >= 400) stars = "⭐⭐";
+      document.getElementById('stars').textContent = `Stars: ${stars}`;
+    }
+
+    function shuffle(array) {
+      array.sort(() => Math.random() - 0.5);
+    }
+
+    function createCard(value) {
+      const card = document.createElement('div');
+      card.classList.add('card');
+      card.dataset.value = value;
+
+      const img = document.createElement('img');
+      img.src = `images/${value}`;
+      card.appendChild(img);
+
+      card.addEventListener('click', flipCard);
+      return card;
+    }
+
+    function flipCard() {
+      if (lockBoard || this.classList.contains('flipped') || this.classList.contains('matched')) return;
+
+      this.classList.add('flipped');
+      this.querySelector('img').style.display = 'block';
+
+      if (!firstCard) {
+        firstCard = this;
+        return;
+      }
+
+      secondCard = this;
+      lockBoard = true;
+
+      // ✅ Move decreases here every time a pair is attempted
+      updateMoves();
+
+      if (firstCard.dataset.value === secondCard.dataset.value) {
+  let attemptScore = Math.max(100 - (30 - movesLeft) * 10, 10); 
+  totalScore += attemptScore;
+
+  firstCard.classList.add('matched');
+  secondCard.classList.add('matched');
+  matchedCards += 2;
+
+  updateUI();
+  resetBoard();
+
+  if (matchedCards === cardDeck.length) {
+    if (currentLevel < 5) {
+      setTimeout(() => {
+        alert(`Level ${currentLevel} Complete!`);
+        currentLevel++;
+        startGame();
+      }, 500);
+    } else {
+      setTimeout(() => alert(`🎉 Game Complete! Final Score: ${totalScore}`), 500);
+    }
+  }
+}
+
+        
+      else {
+        setTimeout(() => {
+          firstCard.classList.remove('flipped');
+          secondCard.classList.remove('flipped');
+          firstCard.querySelector('img').style.display = 'none';
+          secondCard.querySelector('img').style.display = 'none';
+          resetBoard();
+        }, 1000);
+      }
+    }
+
+    function resetBoard() {
+      [firstCard, secondCard] = [null, null];
+      lockBoard = false;
+    }
+
+    function disableAllCards() {
+      const cards = document.querySelectorAll('.card');
+      cards.forEach(card => card.style.pointerEvents = 'none');
+    }
+
+    function updateMoves() {
+      movesLeft--;
+      document.getElementById('movesLeft').textContent = `Moves Left: ${movesLeft}`;
+      if (movesLeft <= 0 && matchedCards < cardDeck.length) {
+        disableAllCards();
+        alert("❌ Out of moves! Try again.");
+        tryAgainButton.style.display = 'flex';
+      }
+    }
+
+    function startGame() {
+      const levelCards = levelImages[currentLevel];
+      cardDeck = [...levelCards, ...levelCards];
+      shuffle(cardDeck);
+
+      gameContainer.innerHTML = '';
+      matchedCards = 0;
+      [firstCard, secondCard] = [null, null];
+      lockBoard = false;
+      tryAgainButton.style.display = 'none';
+      movesLeft = 30;
+
+      updateUI();
+
+      cardDeck.forEach(value => {
+        const card = createCard(value);
+        gameContainer.appendChild(card);
+      });
+    }
+
+    restartButton.addEventListener('click', () => {
+      currentLevel = 1;
+      totalScore = 0;
+      startGame();
+    });
+
+    tryAgainButton.addEventListener('click', () => {
+      totalScore = 0;
+      startGame();
+    });
+
+    startGame();
+  </script>
+</body>
+</html>

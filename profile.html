@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>My Progress</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+  <!-- Firebase SDKs (Modular version) -->
+  <script type="module">
+    import { initializeApp } from 'https://www.gstatic.com/firebasejs/9.22.1/firebase-app.js';
+    import { getAuth, onAuthStateChanged, signOut } from 'https://www.gstatic.com/firebasejs/9.22.1/firebase-auth.js';
+    import { getFirestore, doc, getDoc, enableIndexedDbPersistence } from 'https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore.js';
+
+    // Firebase configuration
+    const firebaseConfig = {
+      apiKey: "AIzaxxx....................",
+      authDomain: "match-master-5c3f.firebaseapp.com",
+      projectId: "match-master-5c3f",
+    };
+
+    // Initialize Firebase
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const db = getFirestore(app);
+
+    // Enable offline persistence
+    enableIndexedDbPersistence(db).catch((err) => {
+      if (err.code == 'failed-precondition') {
+        console.log('Persistence failed: Multiple tabs open');
+      } else if (err.code == 'unimplemented') {
+        console.log('Persistence not available on this browser');
+      }
+    });
+
+    // Listen to auth state
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        const userDocRef = doc(db, "users", user.uid);
+
+        getDoc(userDocRef)
+          .then((docSnap) => {
+            if (docSnap.exists()) {
+              const userData = docSnap.data();
+              console.log("User Data:", userData);
+
+              document.getElementById('user-name').textContent = user.displayName || "Guest";
+              document.getElementById('user-level').textContent = "Level: " + (userData.level || 0);
+              document.getElementById('user-score').textContent = "High Score: " + (userData.score || 0);
+            } else {
+              console.log("No such user document!");
+            }
+          })
+          .catch((error) => {
+            console.error("Error fetching user data:", error);
+          });
+
+      } else {
+        console.log("No user signed in");
+        window.location.href = "index.html"; // redirect to login page
+      }
+    });
+
+    // Logout function
+    function logout() {
+      signOut(auth).then(() => {
+        console.log('User signed out');
+        window.location.href = "index.html";
+      }).catch((error) => {
+        console.error('Error signing out:', error);
+      });
+    }
+
+    document.getElementById('logout-btn')?.addEventListener('click', logout);
+  </script>
+
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Aboreto&family=Bubblegum+Sans&display=swap');
+
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Bubblegum Sans', cursive;
+    }
+
+    .background {
+      position: relative;
+      width: 100%;
+      height: 100vh;
+      overflow: hidden;
+    }
+
+    .image1 {
+      width: 100%;
+      height: 100%;
+      background: url('5.jpg') no-repeat center center fixed;
+      background-size: cover;
+      filter: blur(8px);
+      position: absolute;
+      z-index: 1;
+    }
+
+    .image2 {
+      width: 100%;
+      height: 100%;
+      background-image: url('3.png');
+      background-position: center;
+      background-repeat: no-repeat;
+      position: absolute;
+      z-index: 2;
+    }
+
+    .profile-heading {
+      transform: translateX(450px) translateY(40px);
+      font-size: 4rem;
+      color: rgb(27, 1, 20);
+      width: 50%;
+      text-shadow: 2px 4px 8px rgba(0, 0, 0, 0.4);
+    }
+
+    .score-level-container {
+      box-shadow: 2px 4px 8px rgba(0, 0, 0, 0.4);
+      width: 40%;
+      height: 60%;
+      transform: translateX(470px) translateY(50px);
+      border-radius: 20px;
+      background-color: rgba(255, 255, 255, 0.11);
+    }
+
+    p {
+      padding-top: 10px;
+      font-size: 2.5rem;
+      color: rgb(34, 2, 12);
+      text-align: center;
+      margin-top: 20px;
+      text-shadow: 1px 2px 4px rgba(0, 0, 0, 0.3);
+    }
+
+    p strong {
+      color: rgb(34, 2, 12);
+    }
+
+    #user-score,
+    #user-level {
+      color: #3c031f;
+      font-weight: bold;
+      transition: all 0.3s ease-in-out;
+    }
+
+    .home-button {
+      height: 40px;
+      width: 80px;
+      margin-top: 15px;
+      padding: 10px 20px;
+      border-radius: 30px;
+      font-size: 1.2rem;
+      border: none;
+      background: #fff3;
+      color: rgba(38, 2, 34, 0.868);
+      box-shadow: 2px 4px 10px rgba(0, 0, 0, 0.4);
+      transform: translateX(440px) translateY(-610px);
+      position: relative;
+      cursor: pointer;
+    }
+
+    .logout-btn {
+      font-family: 'Bubblegum sans';
+      margin-top: 20px;
+      background-color: transparent;
+      color: rgb(31, 3, 20);
+      border: none;
+      padding: 10px 20px;
+      font-size: 1.2rem;
+      border-radius: 20px;
+      cursor: pointer;
+      box-shadow: 2px 4px 8px rgba(0, 0, 0, 0.4);
+    }
+  </style>
+</head>
+
+<body>
+  <div class="background">
+    <div class="image1"></div>
+    <div class="image2">
+      <h2 class="profile-heading">Welcome, <span id="user-name">Guest</span>!</h2>
+      <div class="score-level-container">
+        <p><strong>Your Score:</strong> <span id="user-score">Loading...</span></p>
+        <p><strong>Your Level:</strong> <span id="user-level">Loading...</span></p>
+        <button id="logout-btn" class="logout-btn">Logout</button>
+      </div>
+      <a href="index.html">
+        <button class="home-button">
+          <i class="fa-solid fa-house"></i>
+        </button>
+      </a>
+    </div>
+  </div>
+</body>
+
+</html>

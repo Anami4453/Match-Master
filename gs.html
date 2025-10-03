@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>page</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+    crossorigin="anonymous"
+    referrerpolicy="no-refer"
+    />
+</head>
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Aboreto&family=Bubblegum+Sans&family=Permanent+Marker&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Roboto:ital,wght@0,100..900;1,100..900&family=Updock&display=swap');
+ body{
+
+margin: 0%;
+padding: 0%;
+}
+.background{
+position: relative;
+width:100% ;
+height:100% ;
+
+}
+
+.image1{
+width:100%;
+
+height:728px;
+background: url('5.jpg');
+background-repeat: no-repeat;
+background-size: cover;
+background-position: center;
+background-attachment: fixed;
+filter: blur(8px);
+z-index: 1;
+position: absolute;
+}
+.image2{
+width:100%;
+position: absolute;
+background-image: url(3.png);
+background-position: center;
+background-repeat: no-repeat;
+height: 728px;
+z-index:2; 
+}
+.image2 .content{
+    text-align: center;
+    font-weight: bold;
+    font-size: 7rem;
+    top: 50%;
+    left: 50%;
+    z-index:3;
+    font-family: bubblegum sans;
+    color: rgba(75, 9, 84, 0.868);
+    margin-top: 80px;
+    text-shadow:12px 12px 14px rgba(72, 7, 79, 0.747);
+
+}
+.vertical-buttons{
+    display:flex;
+    flex-direction: column;
+    gap:40px;
+   color:rgba(40, 4, 58, 0.868);
+   border-radius:20px;
+   cursor: pointer;
+   background-color:transparent ;
+  
+   
+}
+.vertical-buttons button{
+    border-radius: 30px;
+    border: none;
+    background-color: transparent;
+    box-shadow: 12px 12px 12px 12px rgba(72, 7, 79, 0.747);
+    font-size:3rem;
+   border-radius:20px;
+   font-family: bubblegum sans ;
+   cursor: pointer;
+  
+}
+.vertical-buttons .quest{
+    width:180px;
+    transform: translateX(670px) translateY(50px);
+ 
+}
+.vertical-buttons .classic{
+    width:220px;
+    transform: translateX(650px) translateY(50px);
+ 
+}
+.vertical-buttons .time{
+    width:360px;
+    transform: translateX(590px) translateY(50px);
+ 
+}
+.vertical-buttons .moves{
+    width:280px;
+    transform: translateX(630px) translateY(50px);
+ 
+}
+
+.home-button{
+   
+    margin-top: 15px;
+    padding: 10px 20px;
+    font-size: 1.2rem;
+    border-radius: 30px;
+    background: #fff3;
+    border:none;
+    color:rgba(38, 2, 34, 0.868);
+    box-shadow: 12px 12px 14px rgba(47, 2, 30, 0.747);
+    transform: translateX(420px) translateY(-180px);
+}
+.home-button:hover{
+    font-size:1.3rem ;
+}
+   
+
+</style>
+<body>
+    <div class="background">
+        <div class="image1"> </div>
+        <div class="image2">
+            <div class="content"> Match Master</div>
+            <a href="index.html"> <button class="home-button" >
+                <i class="fa-solid fa-house"></i>
+            </button></a>
+            <div class="vertical-buttons">
+               <a href="quest.html"> <button class="quest" type=button><i>Qeust</i></button></a>
+                <a href="classic.html"><button class="classic" type=button><i>Classic</i></button></a>
+                <a href="time.html"><button class="time" type=button><i>Time challange</i></button></a>
+                <a href="moves.html"><button class="moves" type=button><i>Limited Tries</i></button></a>
+            </div>
+        </div>
+     </div>
+    
+       <script>
+        
+       </script>
+    
+</body>
+
+</html>

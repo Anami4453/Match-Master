@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home Page</title>
+    <link rel="stylesheet" href="g.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+        crossorigin="anonymous" referrerpolicy="no-refer" />
+</head>
+
+<body>
+    <div class="background">
+        <div class="image1"></div>
+        <div class="image2">
+            <div class="content"> Match Master </div>
+            <img src="s1.png" alt="s1" class="sticker1">
+            <img src="s2.png" alt="s2" class="sticker2">
+            <img src="s4.png" alt="s4" class="sticker4">
+            <img src="s5.png" alt="s5" class="sticker5">
+
+            <div class="vertical-buttons">
+                <a href="gs.html">
+                    <button class="play-button" type="button"><i>play</i></button>
+                </a>
+                <button id="google-sign-in"><i>Save your progress</i></button>
+            </div>
+            <a href="profile.html"><button class="view-profile" type="button"><i>i</i></button></a>
+        </div>
+    </div>
+
+   <!-- Firebase Compat (for older-style syntax like firebase.initializeApp()) -->
+<script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore-compat.js"></script>
+
+    <!-- Firebase Configuration and Initialization -->
+    <script>
+        // Firebase config
+        const firebaseConfig = {
+            apiKey: "AIzxxxx........",
+            authDomain: "match-master-5c3f.firebaseapp.com",
+            projectId: "match-master-5c3f",
+            storageBucket: "match-master-5c3f.appspot.com",
+            messagingSenderId: "YOUR_SENDER_ID",
+            appId: "YOUR_APP_ID"
+        };
+
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
+        const auth = firebase.auth();
+        const db = firebase.firestore();
+    </script>
+
+    <!-- Google Sign-In & Save Logic -->
+    <script>
+        const googleSignInButton = document.getElementById("google-sign-in");
+
+        // Google sign-in function
+        function googleSignIn() {
+            const provider = new firebase.auth.GoogleAuthProvider();
+            auth.signInWithPopup(provider)
+                .then((result) => {
+                    const user = result.user;
+                    console.log("User signed in:", user);
+                    alert("Signed in successfully!");
+
+                    // After sign-in, you can load or save game progress
+                    loadGameProgress(user.uid);
+                })
+                .catch((error) => {
+                    console.error("Error signing in:", error.message);
+                    alert("Sign-in failed: " + error.message);
+                });
+        }
+
+        // Handle sign-in button click
+        googleSignInButton.addEventListener("click", googleSignIn);
+
+        // Save game progress to Firestore
+        function saveGameProgress(userId, gameProgress) {
+            db.collection("users").doc(userId).set({
+                score: gameProgress.score,  // Replace with actual score
+                level: gameProgress.level,  // Replace with current level
+                lastPlayed: new Date(),  // Store current date as the last played time
+            })
+            .then(() => {
+                console.log("Game progress saved successfully!");
+                alert("Progress saved!");
+            })
+            .catch((error) => {
+                console.error("Error saving game progress:", error.message);
+                alert("Error saving progress: " + error.message);
+            });
+        }
+
+        // Load game progress from Firestore
+        function loadGameProgress(userId) {
+            db.collection("users").doc(userId).get()
+                .then((doc) => {
+                    if (doc.exists) {
+                        const gameProgress = doc.data();
+                        console.log("Game progress loaded:", gameProgress);
+                        // Use this data to restore the game state
+                    } else {
+                        console.log("No game progress found for user.");
+                    }
+                })
+                .catch((error) => {
+                    console.log("Error loading game progress:", error);
+                });
+        }
+
+    </script>
+</body>
+
+</html>
